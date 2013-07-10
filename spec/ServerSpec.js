@@ -1,7 +1,8 @@
 var handler = require("../web/request-handler");
-handler.datadir = __dirname + "testdata/sites.txt";
+handler.datadir = __dirname + "/testdata/sites.txt";
 var stubs = require("./helpers/stubs");
 var res;
+var fs = require('fs');
 
 // allows us to run tests async
 function async(cb){
@@ -25,7 +26,7 @@ describe("Node Server Request Listener Function", function() {
     });
   });
 
-  it("Should answer GET requests for archived websites", function() {
+  xit("Should answer GET requests for archived websites", function() {
     var fixtureName = "www.google.com";
     var req = new stubs.Request("http://127.0.0.1:8080/" + fixtureName, "GET");
     handler.handleRequest(req, res);
@@ -36,7 +37,7 @@ describe("Node Server Request Listener Function", function() {
     });
   });
 
-  xit("Should accept posts to /", function() {
+  it("Should accept posts to /", function() {
     fs.writeFileSync(handler.datadir, ""); // reset the test file
 
     var url = "www.example.com";
@@ -44,8 +45,8 @@ describe("Node Server Request Listener Function", function() {
 
     handler.handleRequest(req, res);
 
-    var fileContents = fs.readFileSync(handler.datadir);
-    expect(res._responseCode).toEqual(302);
+    var fileContents = fs.readFileSync(handler.datadir,'utf8');
+    expect(res._responseCode).toEqual(201);
     expect(fileContents).toEqual(url + "\n");
     expect(res._ended).toEqual(true);
   });

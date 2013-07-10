@@ -29,10 +29,30 @@ var controller = {
   root: function(req, res){
     console.log('root, my url is: ', req.url);
 
-    var file_content = controller._read_html("../web/public/index.html");
+    if(req.method === 'GET') {
+      var file_content = controller._read_html("../web/public/index.html");
+      res.writeHead(200);
+      res.end(''+file_content);
 
-    res.writeHead(200);
-    res.end(''+file_content);
+    } else if(req.method === 'POST') {
+      var input = '';
+      req.on('data', function(chunk){
+        input += chunk;
+      });
+      req.on('end', function(){
+        input = JSON.parse(input);
+        input = input.url + '\n'; //spec expects a new line
+        var sites_path = "../spec/testdata/sites.txt";
+        fs.appendFileSync(sites_path, input, 'utf8');
+        res.writeHead(201);
+        res.end();
+      });
+    } else {
+      //404 later
+      res.writeHead(404);
+      res.end();
+    }
+
 
   },
 

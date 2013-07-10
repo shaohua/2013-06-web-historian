@@ -1,12 +1,9 @@
 var fs = require('fs');
 var nodeUrl = require('url');
-
-exports.datadir = __dirname + "data/sites.txt"; // tests will need to override this.
+var sitespath = require('../sites_path.js');
 
 exports.handleRequest = function (req, res) {
-  console.log(exports.datadir);
 
-  //list all routers
   var router = [
     ['/test', controller.test],
     [/^\/$/, controller.root], //match root
@@ -30,7 +27,7 @@ var controller = {
     console.log('root, my url is: ', req.url);
 
     if(req.method === 'GET') {
-      var file_content = controller._read_html("../web/public/index.html");
+      var file_content = controller._read_html(sitespath._index);
       res.writeHead(200);
       res.end(''+file_content);
 
@@ -42,8 +39,7 @@ var controller = {
       req.on('end', function(){
         input = JSON.parse(input);
         input = input.url + '\n'; //spec expects a new line
-        var sites_path = "../spec/testdata/sites.txt";
-        fs.appendFileSync(sites_path, input, 'utf8');
+        fs.appendFileSync(sitespath._txt, input, 'utf8');
         res.writeHead(201);
         res.end();
       });
@@ -63,7 +59,7 @@ var controller = {
     console.log('catch_all, my url is: ', req.url);
 
     var filename = nodeUrl.parse(req.url).pathname;
-    var filepath = "./testdata" + filename;
+    var filepath = sitespath._dir + filename;
 
     if( fs.existsSync(filepath) ){
       var file_content = controller._read_html(filepath);

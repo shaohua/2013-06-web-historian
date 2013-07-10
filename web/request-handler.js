@@ -1,3 +1,5 @@
+var fs = require('fs');
+
 exports.datadir = __dirname + "data/sites.txt"; // tests will need to override this.
 
 exports.handleRequest = function (req, res) {
@@ -25,7 +27,12 @@ exports.handleRequest = function (req, res) {
 var controller = {
   root: function(req, res){
     console.log('root, my url is: ', req.url);
-    res.end(''+req.url);
+
+    var file_content = controller._read_html("../web/public/index.html");
+
+    res.writeHead(200);
+    res.end(''+file_content);
+
   },
 
   test: function(req, res){
@@ -36,6 +43,13 @@ var controller = {
   catch_all: function(req, res){
     console.log('catch_all, my url is: ', req.url);
     res.end(''+req.url);
+  },
+
+  _read_html:function(path){
+    // console.log('reading/returning file: ', path);
+    var output = fs.readFileSync(path, 'utf8');
+    // console.log(output);
+    return output;
   }
 
 };

@@ -1,5 +1,7 @@
+var nodeUrl = require('url');
+
 exports.Request = function(url, method, postdata) {
-  this.url = url;
+  this.url = nodeUrl.parse(url).pathname; //changed by El and Shao
   this.method = method;
   this._postData = postdata;
   this.setEncoding = function(type) {

@@ -16,7 +16,7 @@ beforeEach(function(){
 
 describe("Node Server Request Listener Function", function() {
 
-  xit("Should answer GET requests for /", function() {
+  it("Should answer GET requests for /", function() {
     var req = new stubs.Request("http://127.0.0.1:8080/", "GET");
     handler.handleRequest(req, res);
     async(function(){
@@ -26,7 +26,7 @@ describe("Node Server Request Listener Function", function() {
     });
   });
 
-  xit("Should answer GET requests for archived websites", function() {
+  it("Should answer GET requests for archived websites", function() {
     var fixtureName = "www.google.com";
     var req = new stubs.Request("http://127.0.0.1:8080/" + fixtureName, "GET");
     handler.handleRequest(req, res);
@@ -37,7 +37,7 @@ describe("Node Server Request Listener Function", function() {
     });
   });
 
-  xit("Should accept posts to /", function() {
+  it("Should accept posts to /", function() {
     fs.writeFileSync(handler.datadir, ""); // reset the test file
 
     var url = "www.example.com";

@@ -39,6 +39,7 @@ var controller = {
       });
       req.on('end', function(){
         input = JSON.parse(input);
+        console.log('Posted input: ', input);
         input = input.url + '\n'; //spec expects a new line
         fs.appendFileSync(sitespath._txt, input, 'utf8');
         res.writeHead(201);

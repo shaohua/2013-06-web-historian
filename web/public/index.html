@@ -5,13 +5,28 @@
   <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 </head>
 <body>
-  <form method="POST">
+  <form method="POST" action="javascript: callMeBaby()">
     <input type="input" name="url" id="urlInput"></input>
   </form>
   <script type="text/javascript">
-  $('input').on('keyup', function(){
-    console.log( $('#urlInput').val() );
-  })
+  // $('input').on('keyup', function(){
+  //   console.log( $('#urlInput').val() );
+  // })
+
+  var callMeBaby = function() {
+
+    var url_obj = {url: $('#urlInput').val()};
+    url_obj = JSON.stringify(url_obj);
+    $.ajax({
+      url: "/",
+      type: "POST",
+      data: url_obj,
+      dataType: "json"
+    }).done(function(){
+      console.log('done');
+    });
+    $('#urlInput').val('');
+  };
   </script>
 </body>
 </html>

@@ -7,6 +7,7 @@ exports.handleRequest = function (req, res) {
   var router = [
     ['/test', controller.test],
     [/^\/$/, controller.root], //match root
+    [/.*\.css$/, controller.get_css], //match css
     [/.*/, controller.catch_all]
   ];
 
@@ -53,6 +54,15 @@ var controller = {
   test: function(req, res){
     console.log('test, my url is: ', req.url);
     res.end(''+req.url);
+  },
+
+  get_css: function(req, res){
+    if(req.method === 'GET') {
+      var file_content = controller._read_html(sitespath._css);
+      res.setHeader('Content-Type', 'text/css');
+      res.writeHead(200);
+      res.end(''+file_content);
+    }
   },
 
   catch_all: function(req, res){

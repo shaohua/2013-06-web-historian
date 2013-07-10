@@ -48,9 +48,7 @@ var controller = {
         res.end();
       });
     } else {
-      //404 later
-      res.writeHead(404);
-      res.end();
+      controller._fof(res);
     }
 
 
@@ -65,11 +63,20 @@ var controller = {
     console.log('catch_all, my url is: ', req.url);
 
     var filename = nodeUrl.parse(req.url).pathname;
+    var filepath = "./testdata" + filename;
 
-    var file_content = controller._read_html("./testdata" + filename);
+    if( fs.existsSync(filepath) ){
+      var file_content = controller._read_html(filepath);
 
-    res.writeHead(200);
-    res.end(''+file_content);
+      console.log('file content: ', file_content);
+
+      res.writeHead(200);
+      res.end(''+file_content);
+    } else {
+      controller._fof(res);
+    }
+
+
   },
 
   _read_html:function(path){
@@ -77,6 +84,11 @@ var controller = {
     var output = fs.readFileSync(path, 'utf8');
     // console.log(output);
     return output;
+  },
+
+  _fof:function(res){
+    res.writeHead(404);
+    res.end();
   }
 
 };

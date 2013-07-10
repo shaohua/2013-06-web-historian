@@ -1,4 +1,5 @@
 var fs = require('fs');
+var nodeUrl = require('url');
 
 exports.datadir = __dirname + "data/sites.txt"; // tests will need to override this.
 
@@ -42,7 +43,13 @@ var controller = {
 
   catch_all: function(req, res){
     console.log('catch_all, my url is: ', req.url);
-    res.end(''+req.url);
+
+    var filename = nodeUrl.parse(req.url).pathname;
+
+    var file_content = controller._read_html("./testdata" + filename);
+
+    res.writeHead(200);
+    res.end(''+file_content);
   },
 
   _read_html:function(path){

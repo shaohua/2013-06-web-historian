@@ -29,7 +29,7 @@ var controller = {
 
     if(req.method === 'GET') {
       var file_content = controller._read_html(sitespath._index);
-      res.writeHead(200);
+      res.writeHead(200, {'Content-Type': 'text/html'});
       res.end(''+file_content);
 
     } else if(req.method === 'POST') {
@@ -59,8 +59,7 @@ var controller = {
   get_css: function(req, res){
     if(req.method === 'GET') {
       var file_content = controller._read_html(sitespath._css);
-      res.setHeader('Content-Type', 'text/css');
-      res.writeHead(200);
+      res.writeHead(200,{'Content-Type': 'text/css'});
       res.end(''+file_content);
     }
   },

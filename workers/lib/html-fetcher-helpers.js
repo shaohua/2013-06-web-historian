@@ -1,6 +1,7 @@
 var fs = require('fs');
 var _ = require('underscore');
 var http = require('http');
+var nodeUrl = require('url');
 
 exports.readUrls = function(filePath, cb){
 
@@ -17,6 +18,12 @@ exports.readUrls = function(filePath, cb){
 };
 
 exports.downloadUrls = function(url){
+
+  url = url || 'http://www.facebook.com';
+  if(!nodeUrl.parse(url).protocol) {
+    url = 'http://' + url;
+  }
+
   http.get(url, function(res) {
     var input = '';
     res.on('data', function(chunk){
@@ -29,4 +36,6 @@ exports.downloadUrls = function(url){
   }).on('error', function(e) {
     console.log("Got error: " + e.message);
   });
+
+  return true;
 };

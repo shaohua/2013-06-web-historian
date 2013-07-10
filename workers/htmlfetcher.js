@@ -1,8 +1,8 @@
 // eventually, you'll have some code here that uses the tested helpers 
 // to actually download the urls you want to download.
 var hfh = require('./lib/html-fetcher-helpers.js');
+var sitespath = require('../sites_path.js');
 
-
-// hfh.readUrls(filepath, function(url){
-//   hfh.downloadUrls(url);
-// });
+hfh.readUrls(sitespath._txt, function(url){
+  hfh.downloadUrls(url);
+});

@@ -2,6 +2,7 @@ var fs = require('fs');
 var _ = require('underscore');
 var http = require('http');
 var nodeUrl = require('url');
+var sitespath = require('../../sites_path.js');
 
 exports.readUrls = function(filePath, cb){
 
@@ -18,19 +19,18 @@ exports.readUrls = function(filePath, cb){
 };
 
 exports.downloadUrls = function(url){
+  //url should NOT have protocol prefix
+  url = url || 'www.facebook.com';
+  var http_url = 'http://' + url;
 
-  url = url || 'http://www.facebook.com';
-  if(!nodeUrl.parse(url).protocol) {
-    url = 'http://' + url;
-  }
-
-  http.get(url, function(res) {
+  http.get(http_url, function(res) {
     var input = '';
     res.on('data', function(chunk){
       input += chunk;
     });
     res.on('end', function(){
-      console.log('input: ', input);
+      // console.log('input: ', input);
+      fs.writeFileSync(sitespath._dir + url, input, 'utf8');
     });
 
   }).on('error', function(e) {
@@ -39,3 +39,7 @@ exports.downloadUrls = function(url){
 
   return true;
 };
+
+  // if(!nodeUrl.parse(url).protocol) {
+  //   url = 'http://' + url;
+  // }

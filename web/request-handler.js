@@ -5,16 +5,18 @@ exports.handleRequest = function (req, res) {
 
   //list all routers
   var router = [
-    ['/', controller.root],
-    ['/test', controller.test]
+    ['/test', controller.test],
+    [/^\/$/, controller.root], //match root
+    [/.*/, controller.catch_all]
   ];
 
   //go over and map to the right method
   for(var i=0; i<router.length; i++){
     var pattern = router[i][0];
     var controller_func = router[i][1];
-    if(req.url === pattern){
-      controller_func();
+    if(req.url.match(pattern)){
+      controller_func(req, res);
+      break; //break on the first match
     }
   }
 
@@ -22,19 +24,18 @@ exports.handleRequest = function (req, res) {
 
 var controller = {
   root: function(req, res){
-
+    console.log('root, my url is: ', req.url);
+    res.end(''+req.url);
   },
 
-  test: function(req, rest){
-
+  test: function(req, res){
+    console.log('test, my url is: ', req.url);
+    res.end(''+req.url);
   },
 
-  getReq: function(req, res) {
-
-  },
-
-  postReq: function(req, res){
-
+  catch_all: function(req, res){
+    console.log('catch_all, my url is: ', req.url);
+    res.end(''+req.url);
   }
 
 };

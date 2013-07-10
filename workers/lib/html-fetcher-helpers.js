@@ -11,7 +11,6 @@ exports.readUrls = function(filePath, cb){
       _(data).each(function(line){
         cb.call(this,line);
       });
-      // cb.call(this,arguments);
     }
   });
 };

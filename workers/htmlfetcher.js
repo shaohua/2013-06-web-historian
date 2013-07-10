@@ -2,5 +2,7 @@
 // to actually download the urls you want to download.
 var hfh = require('./lib/html-fetcher-helpers.js');
 
-// hfh.readUrls();
-// hfh.downloadUrls();
+
+// hfh.readUrls(filepath, function(url){
+//   hfh.downloadUrls(url);
+// });

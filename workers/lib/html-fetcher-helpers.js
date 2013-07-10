@@ -1,5 +1,6 @@
 var fs = require('fs');
 var _ = require('underscore');
+var http = require('http');
 
 exports.readUrls = function(filePath, cb){
 
@@ -15,6 +16,17 @@ exports.readUrls = function(filePath, cb){
   });
 };
 
-exports.downloadUrls = function(urls){
-  // fixme
+exports.downloadUrls = function(url){
+  http.get(url, function(res) {
+    var input = '';
+    res.on('data', function(chunk){
+      input += chunk;
+    });
+    res.on('end', function(){
+      console.log('input: ', input);
+    });
+
+  }).on('error', function(e) {
+    console.log("Got error: " + e.message);
+  });
 };

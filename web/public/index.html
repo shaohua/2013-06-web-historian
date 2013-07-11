@@ -10,16 +10,13 @@
     <input type="submit" name="submit"></input>
   </form>
   <script type="text/javascript">
-  // $('input').on('keyup', function(){
-  //   console.log( $('#urlInput').val() );
-  // })
 
   $("#urlForm").submit(function(event){
     event.preventDefault();
-    callMeBaby();
+    callMeMaybe();
   });
 
-  var callMeBaby = function() {
+  var callMeMaybe = function() {
     var url_obj = {url: $('#urlInput').val()};
     url_obj = JSON.stringify(url_obj);
     $.ajax({

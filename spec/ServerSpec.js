@@ -45,7 +45,9 @@ describe("Node Server Request Listener Function", function() {
 
     handler.handleRequest(req, res);
 
+    // added 'utf8' encoding below
     var fileContents = fs.readFileSync(handler.datadir,'utf8');
+    // changed response code from 302 (?) to 201
     expect(res._responseCode).toEqual(201);
     expect(fileContents).toEqual(url + "\n");
     expect(res._ended).toEqual(true);

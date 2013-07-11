@@ -1,13 +1,19 @@
 var nodeUrl = require('url');
 
 exports.Request = function(url, method, postdata) {
-  this.url = nodeUrl.parse(url).pathname; //changed by El and Shao
+  // with a real request
+  // request.url does NOT include the domain name
+  // hence, we've changed the line below to mimic that
+  this.url = nodeUrl.parse(url).pathname;
   this.method = method;
   this._postData = postdata;
   this.setEncoding = function(type) {
     //ignore
   };
   var self = this;
+
+  // the same change was implemented on the stub for
+  // the chat server sprint.
   this.addListener = this.on = function(type, callback) {
     if (type == "data") {
       callback(JSON.stringify(self._postData));

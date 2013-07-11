@@ -12,6 +12,8 @@ describe("html fetcher helpers", function(){
     fs.writeFileSync(filepath, urlArray.join("\n"));
 
     var resultArray = [];
+      // replaced the first argument from urlArray to filepath
+      // which reflects how the function is supposed to work
     var result = htmlFetcherHelpers.readUrls(filepath, function(urls){
       resultArray.push(urls);
     });
@@ -21,7 +23,7 @@ describe("html fetcher helpers", function(){
       expect(resultArray).toEqual(urlArray);
     });
   });
-  
+
   it("should have a 'downloadUrls' function", function(){
     var result = htmlFetcherHelpers.downloadUrls();
     expect(result).toBeTruthy();
